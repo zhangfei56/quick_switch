@@ -10,6 +10,7 @@ class StatusBarManager {
     
     weak var applicationManager: ApplicationManager?
     weak var settingsWindowController: SettingsWindowController?
+    weak var launchBarDisplay: LaunchBarDisplay?
     
     // MARK: - Initialization
     
@@ -167,6 +168,11 @@ class StatusBarManager {
         let silentModeItem = NSMenuItem(title: "静默模式设置...", action: #selector(openSilentModeSettings), keyEquivalent: "")
         silentModeItem.target = self
         menu.addItem(silentModeItem)
+
+        // 启动条
+        let launchBarItem = NSMenuItem(title: "显示启动条", action: #selector(showLaunchBar), keyEquivalent: "l")
+        launchBarItem.target = self
+        menu.addItem(launchBarItem)
     }
     
     private func addQuitMenuItem(to menu: NSMenu) {
@@ -220,6 +226,11 @@ class StatusBarManager {
     
     @objc private func openSilentModeSettings() {
         settingsWindowController?.showSettingsWindow()
+    }
+
+    @objc private func showLaunchBar() {
+        guard let apps = applicationManager?.getApplicationsForCurrentMode() else { return }
+        launchBarDisplay?.toggleLaunchBar(with: apps)
     }
     
     @objc private func quitApplication() {
