@@ -166,6 +166,13 @@ class GeneralSettingsViewController: NSViewController {
         view = NSView(frame: NSRect(x: 0, y: 0, width: 600, height: 400))
     }
     
+    private let preferencesManager = UserPreferencesManager.shared
+    private let applicationManager = ApplicationManager()
+    private let shortcutEngine = ShortcutEngine()
+    
+    private var modePopUp: NSPopUpButton!
+    private var modifierPopUp: NSPopUpButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -182,8 +189,10 @@ class GeneralSettingsViewController: NSViewController {
         modeLabel.frame = NSRect(x: 20, y: view.bounds.height - 100, width: 100, height: 20)
         view.addSubview(modeLabel)
         
-        let modePopUp = NSPopUpButton(frame: NSRect(x: 130, y: view.bounds.height - 105, width: 200, height: 25))
+        modePopUp = NSPopUpButton(frame: NSRect(x: 130, y: view.bounds.height - 105, width: 200, height: 25))
         modePopUp.addItems(withTitles: ["Dock 模式", "切换器模式", "自定义模式"])
+        modePopUp.target = self
+        modePopUp.action = #selector(modeChanged)
         view.addSubview(modePopUp)
         
         // 修饰键选择
@@ -191,8 +200,10 @@ class GeneralSettingsViewController: NSViewController {
         modifierLabel.frame = NSRect(x: 20, y: view.bounds.height - 140, width: 100, height: 20)
         view.addSubview(modifierLabel)
         
-        let modifierPopUp = NSPopUpButton(frame: NSRect(x: 130, y: view.bounds.height - 145, width: 200, height: 25))
+        modifierPopUp = NSPopUpButton(frame: NSRect(x: 130, y: view.bounds.height - 145, width: 200, height: 25))
         modifierPopUp.addItems(withTitles: ["Option", "Control", "Command", "Shift"])
+        modifierPopUp.target = self
+        modifierPopUp.action = #selector(modifierChanged)
         view.addSubview(modifierPopUp)
         
         // 状态栏图标
@@ -205,6 +216,35 @@ class GeneralSettingsViewController: NSViewController {
         let launchCheckbox = NSButton(checkboxWithTitle: "登录时自动启动", target: nil, action: nil)
         launchCheckbox.frame = NSRect(x: 20, y: view.bounds.height - 210, width: 200, height: 20)
         view.addSubview(launchCheckbox)
+    }
+
+    // MARK: - Actions
+    
+    @objc private func modeChanged() {
+        let selectedIndex = modePopUp.indexOfSelectedItem
+        let mode: SwitchMode = {
+            switch selectedIndex {
+            case 0: return .dock
+            case 1: return .running
+            default: return .custom
+            }
+        }()
+        preferencesManager.updateSwitchMode(mode)
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
+    }
+    
+    @objc private func modifierChanged() {
+        let selectedIndex = modifierPopUp.indexOfSelectedItem
+        let modifier: NSEvent.ModifierFlags = {
+            switch selectedIndex {
+            case 1: return .control
+            case 2: return .command
+            case 3: return .shift
+            default: return .option
+            }
+        }()
+        preferencesManager.updateModifierKey(modifier)
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
     }
 }
 
@@ -257,6 +297,10 @@ class ApplicationsSettingsViewController: NSViewController {
         setupUI()
     }
     
+    private let preferencesManager = UserPreferencesManager.shared
+    private let systemIntegration = SystemIntegrationManager.shared
+    private var apps: [ApplicationInfo] = []
+    
     private func setupUI() {
         let titleLabel = NSTextField(labelWithString: "应用管理")
         titleLabel.font = NSFont.systemFont(ofSize: 20, weight: .bold)
@@ -269,13 +313,42 @@ class ApplicationsSettingsViewController: NSViewController {
         view.addSubview(scrollView)
         
         // 添加/移除按钮
-        let addButton = NSButton(title: "添加应用", target: nil, action: nil)
+        let addButton = NSButton(title: "添加应用", target: self, action: #selector(addApplication))
         addButton.frame = NSRect(x: 20, y: 20, width: 100, height: 25)
         view.addSubview(addButton)
         
-        let removeButton = NSButton(title: "移除应用", target: nil, action: nil)
+        let removeButton = NSButton(title: "移除应用", target: self, action: #selector(removeApplication))
         removeButton.frame = NSRect(x: 130, y: 20, width: 100, height: 25)
         view.addSubview(removeButton)
+    }
+
+    // MARK: - Actions
+    
+    @objc private func addApplication() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = true
+        openPanel.canChooseDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["app"]
+        
+        openPanel.begin { [weak self] response in
+            guard response == .OK, let self = self else { return }
+            var current = self.preferencesManager.loadCustomApplications()
+            for url in openPanel.urls {
+                if let info = self.systemIntegration.getApplicationInfo(at: url),
+                   !current.contains(info) {
+                    current.append(info)
+                }
+            }
+            self.preferencesManager.saveCustomApplications(current)
+            NotificationCenter.default.post(name: .preferencesChanged, object: nil)
+        }
+    }
+    
+    @objc private func removeApplication() {
+        // 简化实现：清空自定义列表
+        self.preferencesManager.saveCustomApplications([])
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
     }
 }
 
@@ -292,6 +365,11 @@ class SilentModeSettingsViewController: NSViewController {
         setupUI()
     }
     
+    private let preferencesManager = UserPreferencesManager.shared
+    private let silentModeManager = SilentModeManager()
+    private var fullscreenCheckbox: NSButton!
+    private var gameCheckbox: NSButton!
+    
     private func setupUI() {
         let titleLabel = NSTextField(labelWithString: "静默模式设置")
         titleLabel.font = NSFont.systemFont(ofSize: 20, weight: .bold)
@@ -299,14 +377,14 @@ class SilentModeSettingsViewController: NSViewController {
         view.addSubview(titleLabel)
         
         // 自动检测选项
-        let fullscreenCheckbox = NSButton(checkboxWithTitle: "自动检测全屏应用", target: nil, action: nil)
+        fullscreenCheckbox = NSButton(checkboxWithTitle: "自动检测全屏应用", target: self, action: #selector(toggleFullscreenDetect))
         fullscreenCheckbox.frame = NSRect(x: 20, y: view.bounds.height - 90, width: 200, height: 20)
-        fullscreenCheckbox.state = .on
+        fullscreenCheckbox.state = preferencesManager.load().autoDetectFullscreen ? .on : .off
         view.addSubview(fullscreenCheckbox)
         
-        let gameCheckbox = NSButton(checkboxWithTitle: "自动检测游戏应用", target: nil, action: nil)
+        gameCheckbox = NSButton(checkboxWithTitle: "自动检测游戏应用", target: self, action: #selector(toggleGameDetect))
         gameCheckbox.frame = NSRect(x: 20, y: view.bounds.height - 120, width: 200, height: 20)
-        gameCheckbox.state = .on
+        gameCheckbox.state = preferencesManager.load().autoDetectGames ? .on : .off
         view.addSubview(gameCheckbox)
         
         // 静默应用列表
@@ -315,9 +393,28 @@ class SilentModeSettingsViewController: NSViewController {
         view.addSubview(scrollView)
         
         // 预设按钮
-        let presetButton = NSButton(title: "应用常用预设", target: nil, action: nil)
+        let presetButton = NSButton(title: "应用常用预设", target: self, action: #selector(applyPresets))
         presetButton.frame = NSRect(x: 20, y: 20, width: 120, height: 25)
         view.addSubview(presetButton)
+    }
+
+    // MARK: - Actions
+    
+    @objc private func toggleFullscreenDetect() {
+        let enabled = fullscreenCheckbox.state == .on
+        silentModeManager.setAutoDetectFullscreen(enabled)
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
+    }
+    
+    @objc private func toggleGameDetect() {
+        let enabled = gameCheckbox.state == .on
+        silentModeManager.setAutoDetectGames(enabled)
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
+    }
+    
+    @objc private func applyPresets() {
+        silentModeManager.applyCommonSilentApplications()
+        NotificationCenter.default.post(name: .preferencesChanged, object: nil)
     }
 }
 

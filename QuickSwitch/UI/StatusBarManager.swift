@@ -9,6 +9,7 @@ class StatusBarManager {
     private var statusBarMenu: NSMenu?
     
     weak var applicationManager: ApplicationManager?
+    weak var settingsWindowController: SettingsWindowController?
     
     // MARK: - Initialization
     
@@ -210,18 +211,15 @@ class StatusBarManager {
     }
     
     @objc private func openSettings() {
-        // 打开设置窗口
-        // 这里可以打开主设置窗口
+        settingsWindowController?.showSettingsWindow()
     }
     
     @objc private func openShortcutSettings() {
-        // 打开快捷键设置窗口
-        // 这里可以打开快捷键设置窗口
+        settingsWindowController?.showSettingsWindow()
     }
     
     @objc private func openSilentModeSettings() {
-        // 打开静默模式设置窗口
-        // 这里可以打开静默模式设置窗口
+        settingsWindowController?.showSettingsWindow()
     }
     
     @objc private func quitApplication() {

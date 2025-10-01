@@ -79,6 +79,30 @@ class SystemIntegrationManager {
             isRunning: true
         )
     }
+
+    /// 通过应用 URL 获取应用信息（适用于未运行的应用）
+    func getApplicationInfo(at url: URL) -> ApplicationInfo? {
+        guard let bundle = Bundle(url: url) else { return nil }
+        let bundleIdentifier = bundle.bundleIdentifier ?? url.lastPathComponent
+        let name = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String
+            ?? url.deletingPathExtension().lastPathComponent
+        let icon = workspace.icon(forFile: url.path)
+        return ApplicationInfo(
+            bundleIdentifier: bundleIdentifier,
+            name: name,
+            path: url.path,
+            icon: icon,
+            isRunning: false
+        )
+    }
+
+    /// 通过 Bundle Identifier 查找应用并获取信息
+    func getApplicationInfo(forBundleIdentifier bundleIdentifier: String) -> ApplicationInfo? {
+        guard let url = workspace.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
+            return nil
+        }
+        return getApplicationInfo(at: url)
+    }
     
     // MARK: - 窗口管理
     

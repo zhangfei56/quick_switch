@@ -220,13 +220,13 @@ class ApplicationManager: ObservableObject {
     
     private func loadCustomApplications() {
         // 从用户偏好中加载自定义应用列表
-        let preferences = preferencesManager.load()
-        // 这里需要实现自定义应用的持久化存储
+        let apps = preferencesManager.loadCustomApplications()
+        customApplications = apps.sorted()
     }
     
     private func saveCustomApplications() {
         // 保存自定义应用列表到用户偏好
-        // 这里需要实现自定义应用的持久化存储
+        preferencesManager.saveCustomApplications(customApplications)
     }
 }
 

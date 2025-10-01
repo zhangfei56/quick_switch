@@ -103,9 +103,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 设置状态栏管理器的应用管理器
         statusBarManager?.applicationManager = applicationManager
+        statusBarManager?.settingsWindowController = settingsWindowController
         
         // 集成静默模式管理器
         setupSilentModeIntegration()
+
+        // 订阅偏好设置变化
+        subscribeToPreferencesChanges()
+        
+        // 订阅应用列表和模式变化，刷新菜单和快捷键
+        applicationManager.$dockApplications
+            .sink { [weak self] _ in
+                self?.statusBarManager?.refreshMenu()
+                self?.shortcutEngine?.updateApplicationShortcuts()
+            }
+            .store(in: &cancellables)
+        
+        applicationManager.$runningApplications
+            .sink { [weak self] _ in
+                self?.statusBarManager?.refreshMenu()
+                self?.shortcutEngine?.updateApplicationShortcuts()
+            }
+            .store(in: &cancellables)
+        
+        applicationManager.$customApplications
+            .sink { [weak self] _ in
+                self?.statusBarManager?.refreshMenu()
+                self?.shortcutEngine?.updateApplicationShortcuts()
+            }
+            .store(in: &cancellables)
+        
+        applicationManager.$currentMode
+            .sink { [weak self] _ in
+                self?.statusBarManager?.refreshMenu()
+                self?.shortcutEngine?.updateApplicationShortcuts()
+            }
+            .store(in: &cancellables)
     }
     
     private func setupSilentModeIntegration() {
@@ -139,9 +172,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 启动状态栏
         statusBarManager?.start()
+        statusBarManager?.refreshMenu()
         
         print("Quick Switch 已启动")
         print("使用 Option + 1-9 来快速切换应用")
+    }
+
+    // MARK: - Preferences Wiring
+    
+    private func subscribeToPreferencesChanges() {
+        let prefsManager = UserPreferencesManager.shared
+        prefsManager.preferencesPublisher
+            .sink { [weak self] preferences in
+                guard let self = self else { return }
+                // 更新应用管理器模式（不回写偏好）
+                if let appManager = self.applicationManager {
+                    appManager.currentMode = preferences.switchMode
+                    appManager.refreshApplicationLists()
+                }
+                // 更新快捷键修饰键
+                self.shortcutEngine?.setModifierKey(preferences.modifierKey)
+                // 刷新状态栏菜单
+                self.statusBarManager?.refreshMenu()
+            }
+            .store(in: &cancellables)
     }
     
     private func stopServices() {
