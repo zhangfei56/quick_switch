@@ -104,6 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 设置状态栏管理器的应用管理器
         statusBarManager?.applicationManager = applicationManager
         statusBarManager?.settingsWindowController = settingsWindowController
+        statusBarManager?.launchBarDisplay = launchBarDisplay
         
         // 集成静默模式管理器
         setupSilentModeIntegration()

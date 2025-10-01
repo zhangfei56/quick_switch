@@ -13,6 +13,7 @@ class LaunchBarDisplay: NSObject {
     
     private let preferencesManager = UserPreferencesManager.shared
     private var cancellables = Set<AnyCancellable>()
+    weak var applicationManager: ApplicationManager?
     
     // MARK: - Initialization
     
@@ -256,6 +257,8 @@ class LaunchBarView: NSView {
         button.imageScaling = .scaleProportionallyDown
         button.toolTip = "\(index + 1). \(app.displayName)"
         button.tag = index
+        button.target = self
+        button.action = #selector(launchBarButtonClicked(_:))
         
         // 添加数字标签
         let numberLabel = NSTextField(labelWithString: "\(index + 1)")
@@ -278,6 +281,16 @@ class LaunchBarView: NSView {
         ])
         
         return button
+    }
+
+    // MARK: - Actions
+    
+    @objc private func launchBarButtonClicked(_ sender: NSButton) {
+        let index = sender.tag
+        guard index >= 0 && index < applications.count else { return }
+        let app = applications[index]
+        applicationManager?.switchToApplication(app)
+        hideWithAnimation()
     }
 }
 
