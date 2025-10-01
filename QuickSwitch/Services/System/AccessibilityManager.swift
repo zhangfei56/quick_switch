@@ -1,5 +1,6 @@
 import Cocoa
 import ApplicationServices
+import Combine
 
 /// 辅助功能权限管理器
 class AccessibilityManager {
@@ -122,8 +123,6 @@ extension Notification.Name {
 }
 
 // MARK: - 权限状态发布者
-
-import Combine
 
 extension AccessibilityManager {
     /// 权限状态发布者

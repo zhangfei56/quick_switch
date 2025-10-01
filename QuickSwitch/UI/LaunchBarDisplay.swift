@@ -1,5 +1,6 @@
 import Cocoa
 import Combine
+import QuartzCore
 
 /// 启动条显示器
 class LaunchBarDisplay: NSObject {

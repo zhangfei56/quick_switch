@@ -1,5 +1,6 @@
 import Cocoa
 import ApplicationServices
+import CoreGraphics
 
 /// 系统集成管理器
 class SystemIntegrationManager {
