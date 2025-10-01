@@ -14,6 +14,7 @@ class ShortcutEngine: ObservableObject {
     private let preferencesManager = UserPreferencesManager.shared
     private var cancellables = Set<AnyCancellable>()
     private var shortcutActions: [String: () -> Void] = [:]
+    private let preferencesShortcutKey = "QuickSwitchShortcuts"
     
     // MARK: - Initialization
     
@@ -272,6 +273,78 @@ extension ShortcutEngine {
         
         return systemShortcuts.contains { keyCode, modifiers in
             shortcut.keyCode == keyCode && shortcut.modifiers == modifiers
+        }
+    }
+}
+
+// MARK: - 导入 / 导出
+
+extension ShortcutEngine {
+    struct ShortcutExportItem: Codable {
+        let identifier: String
+        let keyCode: UInt16
+        let modifiersRawValue: UInt
+    }
+    
+    struct ShortcutExportBundle: Codable {
+        let version: Int
+        let items: [ShortcutExportItem]
+        let exportDate: Date
+    }
+    
+    /// 导出当前快捷键信息为 JSON 数据
+    func exportShortcuts() -> Data? {
+        let items = registeredShortcuts.map { sc in
+            ShortcutExportItem(identifier: sc.identifier, keyCode: sc.keyCode, modifiersRawValue: sc.modifiers.rawValue)
+        }
+        let bundle = ShortcutExportBundle(version: 1, items: items, exportDate: Date())
+        return try? JSONEncoder().encode(bundle)
+    }
+    
+    /// 从 JSON 数据导入快捷键配置，并重新注册
+    func importShortcuts(from data: Data) throws {
+        let bundle = try JSONDecoder().decode(ShortcutExportBundle.self, from: data)
+        let items = bundle.items
+        
+        // 重建快捷键：仅针对已有 identifier 的 action 进行更新
+        for item in items {
+            let newModifiers = NSEvent.ModifierFlags(rawValue: item.modifiersRawValue)
+            let newShortcut = Shortcut(keyCode: item.keyCode, modifiers: newModifiers, identifier: item.identifier)
+            if let existingAction = shortcutActions[item.identifier] {
+                // 如果已有同 identifier 的快捷键，先移除旧的
+                if let existing = registeredShortcuts.first(where: { $0.identifier == item.identifier }) {
+                    unregisterShortcut(existing)
+                }
+                registerShortcut(newShortcut, action: existingAction)
+            }
+        }
+        // 持久化
+        persistShortcuts()
+    }
+    
+    /// 将当前注册的快捷键保存到偏好设置
+    func persistShortcuts() {
+        let items = registeredShortcuts.map { sc in
+            ShortcutExportItem(identifier: sc.identifier, keyCode: sc.keyCode, modifiersRawValue: sc.modifiers.rawValue)
+        }
+        if let data = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.set(data, forKey: preferencesShortcutKey)
+        }
+    }
+    
+    /// 从偏好设置加载快捷键并应用（如可行）
+    func loadPersistedShortcuts() {
+        guard let data = UserDefaults.standard.data(forKey: preferencesShortcutKey),
+              let items = try? JSONDecoder().decode([ShortcutExportItem].self, from: data) else { return }
+        for item in items {
+            let newModifiers = NSEvent.ModifierFlags(rawValue: item.modifiersRawValue)
+            let shortcut = Shortcut(keyCode: item.keyCode, modifiers: newModifiers, identifier: item.identifier)
+            if let action = shortcutActions[item.identifier] {
+                if let existing = registeredShortcuts.first(where: { $0.identifier == item.identifier }) {
+                    unregisterShortcut(existing)
+                }
+                registerShortcut(shortcut, action: action)
+            }
         }
     }
 }
