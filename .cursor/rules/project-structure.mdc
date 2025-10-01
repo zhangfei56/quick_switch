@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+description: Quick Switch 项目结构和核心文档指南
+---
+
+# Quick Switch 项目结构指南
+
+这是一个用于替换 Mac 应用 Manico 的快速应用切换工具项目。
+
+## 核心文档
+- [PRD.md](mdc:PRD.md) - 产品需求文档，包含完整的功能需求和技术要求
+- [ARCHITECTURE.md](mdc:ARCHITECTURE.md) - 系统架构设计文档，定义了六层架构和核心模块
+- [IMPLEMENTATION_PLAN.md](mdc:IMPLEMENTATION_PLAN.md) - 详细的实现步骤规划，包含七个开发阶段
+
+## 项目目标
+- 替换 Manico 应用，提供更好的用户体验
+- 支持三种切换模式：Dock模式、切换器模式、自定义模式
+- 实现全局快捷键监听和应用快速切换
+- 提供静默模式、用量统计、应用分组等高级功能
+
+## 技术栈
+- 开发语言：Swift 5.7+
+- 开发环境：Xcode 14.0+
+- 最低系统：macOS 10.15+
+- 目标架构：Intel x64 + Apple Silicon
+- 数据存储：CoreData + UserDefaults
+
+## 架构原则
+- 采用六层架构设计：系统接口层、核心服务层、业务逻辑层、数据管理层、用户界面层、配置管理层
+- 模块化设计，高内聚低耦合
+- 性能优先：启动时间 < 2s，内存占用 < 50MB，响应时间 < 100ms
+- 稳定性要求：崩溃率 < 0.1%，零内存泄漏

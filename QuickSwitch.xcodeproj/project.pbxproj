@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1234567890ABCDEF001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF000 /* AppDelegate.swift */; };
+		A1234567890ABCDEF003 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF002 /* Main.storyboard */; };
+		A1234567890ABCDEF005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF004 /* Assets.xcassets */; };
+		A1234567890ABCDEF008 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF006 /* LaunchScreen.storyboard */; };
+		A1234567890ABCDEF020 /* ApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF019 /* ApplicationInfo.swift */; };
+		A1234567890ABCDEF022 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF021 /* Shortcut.swift */; };
+		A1234567890ABCDEF024 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF023 /* UserPreferences.swift */; };
+		A1234567890ABCDEF026 /* ApplicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF025 /* ApplicationManager.swift */; };
+		A1234567890ABCDEF028 /* EventListenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF027 /* EventListenerService.swift */; };
+		A1234567890ABCDEF030 /* ShortcutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF029 /* ShortcutEngine.swift */; };
+		A1234567890ABCDEF032 /* AccessibilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF031 /* AccessibilityManager.swift */; };
+		A1234567890ABCDEF034 /* SystemIntegrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF033 /* SystemIntegrationManager.swift */; };
+		A1234567890ABCDEF036 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF035 /* StatusBarManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1234567890ABCDEF000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF001 /* QuickSwitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickSwitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1234567890ABCDEF002 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		A1234567890ABCDEF004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1234567890ABCDEF006 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A1234567890ABCDEF007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1234567890ABCDEF019 /* ApplicationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfo.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF021 /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF023 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF025 /* ApplicationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationManager.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF027 /* EventListenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListenerService.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF029 /* ShortcutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutEngine.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF031 /* AccessibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityManager.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF033 /* SystemIntegrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemIntegrationManager.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF035 /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF037 /* QuickSwitch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickSwitch.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1234567890ABCDEF00A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1234567890ABCDEF00B = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF00C /* QuickSwitch */,
+				A1234567890ABCDEF00D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF00C /* QuickSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF000 /* AppDelegate.swift */,
+				A1234567890ABCDEF002 /* Main.storyboard */,
+				A1234567890ABCDEF004 /* Assets.xcassets */,
+				A1234567890ABCDEF006 /* LaunchScreen.storyboard */,
+				A1234567890ABCDEF007 /* Info.plist */,
+				A1234567890ABCDEF037 /* QuickSwitch.entitlements */,
+				A1234567890ABCDEF038 /* Models */,
+				A1234567890ABCDEF039 /* Services */,
+				A1234567890ABCDEF040 /* UI */,
+			);
+			path = QuickSwitch;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF038 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF019 /* ApplicationInfo.swift */,
+				A1234567890ABCDEF021 /* Shortcut.swift */,
+				A1234567890ABCDEF023 /* UserPreferences.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF039 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF041 /* Core */,
+				A1234567890ABCDEF042 /* System */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF040 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF035 /* StatusBarManager.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF041 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF025 /* ApplicationManager.swift */,
+				A1234567890ABCDEF027 /* EventListenerService.swift */,
+				A1234567890ABCDEF029 /* ShortcutEngine.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF042 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF031 /* AccessibilityManager.swift */,
+				A1234567890ABCDEF033 /* SystemIntegrationManager.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF00D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF001 /* QuickSwitch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1234567890ABCDEF00E /* QuickSwitch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1234567890ABCDEF00F /* Build configuration list for PBXNativeTarget "QuickSwitch" */;
+			buildPhases = (
+				A1234567890ABCDEF010 /* Sources */,
+				A1234567890ABCDEF00A /* Frameworks */,
+				A1234567890ABCDEF011 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuickSwitch;
+			productName = QuickSwitch;
+			productReference = A1234567890ABCDEF001 /* QuickSwitch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1234567890ABCDEF012 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A1234567890ABCDEF00E = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = A1234567890ABCDEF013 /* Build configuration list for PBXProject "QuickSwitch" */;
+			compatibilityVersion = "Xcode 26.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1234567890ABCDEF00B;
+			productRefGroup = A1234567890ABCDEF00D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1234567890ABCDEF00E /* QuickSwitch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1234567890ABCDEF011 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1234567890ABCDEF008 /* LaunchScreen.storyboard in Resources */,
+				A1234567890ABCDEF005 /* Assets.xcassets in Resources */,
+				A1234567890ABCDEF003 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1234567890ABCDEF010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1234567890ABCDEF001 /* AppDelegate.swift in Sources */,
+				A1234567890ABCDEF020 /* ApplicationInfo.swift in Sources */,
+				A1234567890ABCDEF022 /* Shortcut.swift in Sources */,
+				A1234567890ABCDEF024 /* UserPreferences.swift in Sources */,
+				A1234567890ABCDEF026 /* ApplicationManager.swift in Sources */,
+				A1234567890ABCDEF028 /* EventListenerService.swift in Sources */,
+				A1234567890ABCDEF030 /* ShortcutEngine.swift in Sources */,
+				A1234567890ABCDEF032 /* AccessibilityManager.swift in Sources */,
+				A1234567890ABCDEF034 /* SystemIntegrationManager.swift in Sources */,
+				A1234567890ABCDEF036 /* StatusBarManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A1234567890ABCDEF002 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1234567890ABCDEF014 /* Base */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF006 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1234567890ABCDEF015 /* Base */,
+			);
+			name = LaunchScreen;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A1234567890ABCDEF016 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A1234567890ABCDEF017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A1234567890ABCDEF018 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QuickSwitch/QuickSwitch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"QuickSwitch/Preview Content\"";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickSwitch/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quickswitch.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A1234567890ABCDEF019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QuickSwitch/QuickSwitch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"QuickSwitch/Preview Content\"";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickSwitch/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quickswitch.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1234567890ABCDEF013 /* Build configuration list for PBXProject "QuickSwitch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1234567890ABCDEF016 /* Debug */,
+				A1234567890ABCDEF017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1234567890ABCDEF00F /* Build configuration list for PBXNativeTarget "QuickSwitch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1234567890ABCDEF018 /* Debug */,
+				A1234567890ABCDEF019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1234567890ABCDEF012 /* Project object */;
+}
+
