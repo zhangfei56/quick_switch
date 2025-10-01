@@ -97,6 +97,16 @@ class SilentModeManager: ObservableObject {
             self?.currentActiveApplication = app
             self?.updateSilentModeStatus()
         }
+
+        // 监听偏好设置变化
+        preferencesManager.preferencesPublisher
+            .sink { [weak self] newPreferences in
+                guard let self = self else { return }
+                self.preferences = newPreferences
+                self.silentApplications = newPreferences.silentApplications
+                self.updateSilentModeStatus()
+            }
+            .store(in: &cancellables)
     }
     
     private func startMonitoring() {

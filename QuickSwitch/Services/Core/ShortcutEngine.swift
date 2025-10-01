@@ -202,6 +202,14 @@ class ShortcutEngine: ObservableObject {
             }
         }
     }
+
+    // MARK: - Public API
+    
+    /// 更新修饰键并重新注册快捷键
+    func setModifierKey(_ modifier: NSEvent.ModifierFlags) {
+        updateModifierKey(modifier)
+        reregisterAllShortcuts()
+    }
     
     private func detectConflict(for shortcut: Shortcut) -> ShortcutConflict? {
         for existingShortcut in registeredShortcuts {

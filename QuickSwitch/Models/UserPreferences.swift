@@ -26,6 +26,11 @@ struct UserPreferences: Codable {
     /// 启动条透明度
     var launchBarOpacity: Double = 0.8
     
+    // MARK: - 自定义应用
+    
+    /// 自定义应用列表
+    var customApplications: [ApplicationInfo] = []
+
     // MARK: - 静默模式设置
     
     /// 静默应用列表
@@ -146,6 +151,7 @@ class UserPreferencesManager {
         do {
             let data = try JSONEncoder().encode(preferences)
             userDefaults.set(data, forKey: preferencesKey)
+            NotificationCenter.default.post(name: .preferencesChanged, object: nil)
         } catch {
             print("Failed to save user preferences: \(error)")
         }
@@ -162,6 +168,18 @@ class UserPreferencesManager {
             print("Failed to load user preferences: \(error)")
             return UserPreferences()
         }
+    }
+    
+    // MARK: - 自定义应用持久化
+    
+    func loadCustomApplications() -> [ApplicationInfo] {
+        return load().customApplications
+    }
+    
+    func saveCustomApplications(_ applications: [ApplicationInfo]) {
+        var preferences = load()
+        preferences.customApplications = applications
+        save(preferences)
     }
     
     // MARK: - 重置设置
@@ -203,6 +221,22 @@ class UserPreferencesManager {
             .autoconnect()
             .map { _ in true } // 简化实现，实际应该检查权限状态
             .removeDuplicates()
+            .eraseToAnyPublisher()
+    }
+}
+
+// MARK: - 偏好更改通知 & 发布者
+
+extension Notification.Name {
+    static let preferencesChanged = Notification.Name("QuickSwitchPreferencesChanged")
+}
+
+extension UserPreferencesManager {
+    var preferencesPublisher: AnyPublisher<UserPreferences, Never> {
+        NotificationCenter.default
+            .publisher(for: .preferencesChanged)
+            .map { [weak self] _ in self?.load() ?? UserPreferences() }
+            .prepend(load())
             .eraseToAnyPublisher()
     }
 }
