@@ -251,6 +251,7 @@ class GeneralSettingsViewController: NSViewController {
 // MARK: - 快捷键设置视图控制器
 
 class ShortcutsSettingsViewController: NSViewController {
+    private let shortcutEngine = ShortcutEngine()
     
     override func loadView() {
         view = NSView(frame: NSRect(x: 0, y: 0, width: 600, height: 400))
@@ -281,6 +282,47 @@ class ShortcutsSettingsViewController: NSViewController {
         conflictCheckbox.frame = NSRect(x: 20, y: 20, width: 200, height: 20)
         conflictCheckbox.state = .on
         view.addSubview(conflictCheckbox)
+
+        // 导入导出按钮
+        let exportButton = NSButton(title: "导出快捷键", target: self, action: #selector(exportShortcuts))
+        exportButton.frame = NSRect(x: view.bounds.width - 230, y: 15, width: 100, height: 28)
+        view.addSubview(exportButton)
+        
+        let importButton = NSButton(title: "导入快捷键", target: self, action: #selector(importShortcuts))
+        importButton.frame = NSRect(x: view.bounds.width - 120, y: 15, width: 100, height: 28)
+        view.addSubview(importButton)
+    }
+
+    // MARK: - Actions
+    
+    @objc private func exportShortcuts() {
+        guard let data = shortcutEngine.exportShortcuts() else { return }
+        let savePanel = NSSavePanel()
+        savePanel.allowedFileTypes = ["json"]
+        savePanel.nameFieldStringValue = "QuickSwitchShortcuts.json"
+        savePanel.begin { result in
+            if result == .OK, let url = savePanel.url {
+                try? data.write(to: url)
+            }
+        }
+    }
+    
+    @objc private func importShortcuts() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowedFileTypes = ["json"]
+        openPanel.allowsMultipleSelection = false
+        openPanel.begin { [weak self] result in
+            guard result == .OK, let url = openPanel.url, let data = try? Data(contentsOf: url) else { return }
+            do {
+                try self?.shortcutEngine.importShortcuts(from: data)
+            } catch {
+                let alert = NSAlert()
+                alert.messageText = "导入失败"
+                alert.informativeText = "无法解析快捷键配置。"
+                alert.alertStyle = .warning
+                alert.runModal()
+            }
+        }
     }
 }
 

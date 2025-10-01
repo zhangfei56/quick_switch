@@ -165,6 +165,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 启动快捷键引擎
         shortcutEngine?.start()
+        // 加载持久化快捷键
+        shortcutEngine?.loadPersistedShortcuts()
         
         // 启动事件监听
         if !(silentModeManager?.isInSilentMode ?? false) {
