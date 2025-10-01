@@ -1,5 +1,4 @@
 import Cocoa
-import SwiftUI
 
 /// 设置窗口控制器
 class SettingsWindowController: NSWindowController {

@@ -1,4 +1,5 @@
 import Cocoa
+import Combine
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -155,7 +156,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-// MARK: - Combine Import
-
-import Combine
 

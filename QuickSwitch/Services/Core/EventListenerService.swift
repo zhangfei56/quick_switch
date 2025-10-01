@@ -1,5 +1,6 @@
 import Cocoa
 import Carbon
+import CoreGraphics
 
 /// 事件监听服务
 class EventListenerService {

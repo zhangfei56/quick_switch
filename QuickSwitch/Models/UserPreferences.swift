@@ -1,5 +1,6 @@
 import Cocoa
 import Combine
+import Foundation
 
 /// 用户偏好设置模型
 struct UserPreferences: Codable {
