@@ -1,0 +1,168 @@
+---
+alwaysApply: true
+description: QuickSwitch 产品架构设计（核心模块与交互流程）
+---
+
+# QuickSwitch 产品架构
+
+## 一、核心模块划分
+
+### 1. 启动条管理模块（LaunchBarManager）
+**职责**：
+- 显示/隐藏启动条窗口
+- 管理两种视图模式：
+  - **绑定视图**：显示用户预设绑定的应用
+  - **运行视图**：显示当前所有打开的应用
+- 响应修饰键状态（按住显示、松开隐藏）
+- 响应 Tab 键切换视图
+
+**关键属性**：
+- `currentView: ViewMode` (.bound | .running)
+- `isVisible: Bool`
+- `triggerModifier: NSEvent.ModifierFlags`
+
+### 2. 快捷键引擎（ShortcutEngine）
+**职责**：
+- 监听全局键盘事件
+- 触发键 + 数字/字母/功能键 → 切换到对应应用
+- 触发键 + Tab → 切换启动条视图
+- 支持自定义快捷键绑定
+
+**支持的键位范围**：
+- 数字键：1-9（9个）
+- 字母键：A-Z（26个）
+- 功能键：F1-F12（12个）
+- 总计：47 个可绑定位
+
+### 3. 应用管理模块（ApplicationManager）
+**职责**：
+- 获取当前所有打开的应用列表
+- 根据 Bundle ID 或路径启动/切换应用
+- 获取应用图标、窗口数量
+
+### 4. 用户配置管理（UserPreferencesManager）
+**职责**：
+- 持久化用户设置：
+  - 触发修饰键（默认 Option）
+  - 应用绑定表：`[快捷键: 应用Bundle ID/路径]`
+- 提供设置界面的数据源
+
+### 5. UI层
+**组件**：
+- `LaunchBarView`：启动条窗口，展示应用图标 + 快捷键 + 窗口数
+- `SettingsWindowController`：设置窗口
+  - 触发键设置
+  - 应用绑定列表（拖拽排序、添加/删除、快捷键分配）
+- `StatusBarManager`：状态栏图标与菜单
+
+---
+
+## 二、交互流程
+
+### 流程1：显示启动条（绑定视图）
+```
+用户按住修饰键（Option）
+  ↓
+ShortcutEngine 检测到修饰键按下
+  ↓
+LaunchBarManager.show(mode: .bound)
+  ↓
+读取用户绑定配置 → 渲染启动条
+  ↓
+用户松开修饰键 → 隐藏启动条
+```
+
+### 流程2：切换到运行视图
+```
+用户按住修饰键（Option）
+  ↓
+启动条显示（绑定视图）
+  ↓
+用户按下 Tab 键（不松开修饰键）
+  ↓
+LaunchBarManager.switchView() → 切换到运行视图
+  ↓
+ApplicationManager.getRunningApps() → 渲染当前打开应用
+  ↓
+再次按 Tab → 切回绑定视图（循环切换）
+```
+
+### 流程3：快捷键切换应用
+```
+用户按住修饰键 + 按下数字/字母键（如 Option + 3）
+  ↓
+ShortcutEngine 匹配快捷键绑定
+  ↓
+ApplicationManager.switchToApp(bundleID)
+  ↓
+若应用未运行 → 启动；若已运行 → 激活前置
+  ↓
+松开修饰键 → 隐藏启动条
+```
+
+---
+
+## 三、数据模型
+
+### 应用绑定配置
+```swift
+struct AppBinding: Codable {
+    let key: ShortcutKey        // .number(3) | .letter("A") | .function(1)
+    let appIdentifier: String   // Bundle ID 或应用路径
+    let displayName: String     // 显示名称
+}
+
+enum ShortcutKey: Codable {
+    case number(Int)            // 1-9
+    case letter(String)         // A-Z
+    case function(Int)          // F1-F12
+}
+```
+
+### 用户配置
+```swift
+struct UserPreferences: Codable {
+    var triggerModifier: NSEvent.ModifierFlags  // 默认 .option
+    var appBindings: [AppBinding]               // 用户绑定列表
+    var showWindowCount: Bool                   // 是否显示窗口数（默认 true）
+}
+```
+
+---
+
+## 四、技术约束
+
+### 性能要求
+- 修饰键响应延迟 < 50ms
+- 启动条渲染时间 < 100ms
+- 内存占用 < 50MB
+
+### 架构原则
+- 单一 `@main` 入口（QuickSwitchApp.swift）
+- 无 Storyboard，纯代码构建 UI
+- 使用 NotificationCenter 解耦模块间通信
+- 状态栏常驻，无 Dock 图标
+
+---
+
+## 五、模块依赖关系
+
+```
+QuickSwitchApp (入口)
+    ↓
+    ├─ ShortcutEngine ──→ LaunchBarManager
+    ├─ ApplicationManager
+    ├─ UserPreferencesManager
+    └─ StatusBarManager ──→ SettingsWindowController
+```
+
+**核心通信机制**：
+- `ShortcutEngine` 检测键盘事件 → 通知 `LaunchBarManager`
+- `LaunchBarManager` 查询 `ApplicationManager` 获取应用列表
+- `LaunchBarManager` 读取 `UserPreferencesManager` 获取绑定配置
+
+---
+
+## 参考文件
+- 业务规则：[business-rules.mdc](mdc:business-rules.mdc)
+- 项目结构：[project-structure.mdc](mdc:project-structure.mdc)

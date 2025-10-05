@@ -1,0 +1,19 @@
+---
+alwaysApply: true
+description: QuickSwitch 极简项目结构与核心文件
+---
+
+# QuickSwitch 项目结构（精简版）
+
+- 入口：`QuickSwitch/QuickSwitchApp.swift`（唯一 `@main`）
+- UI：`QuickSwitch/UI/`（状态栏、启动条）
+- 服务：`QuickSwitch/Services/`（应用与快捷键逻辑）
+- 模型：`QuickSwitch/Models/`
+- 配置：`QuickSwitch/Info.plist`、`QuickSwitch/QuickSwitch.entitlements`
+
+## 目标
+- 用快捷键替代 Manico，快速切换已打开或预设应用
+- 按住指定修饰键弹出“启动条”，数字选择应用
+
+## 参考
+- 业务规则：[business-rules.mdc](mdc:business-rules.mdc)
